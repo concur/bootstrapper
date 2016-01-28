@@ -25,18 +25,18 @@ Install
 Download, review, then execute the script:
 
 ```sh
-curl --remote-name https://raw.githubusercontent.com/concur/laptop/master/mac
+curl --remote-name https://raw.githubusercontent.com/concur/bootstrapper/master/mac
 less mac
-sh mac 2>&1 | tee ~/laptop.log
+sh mac 2>&1 | tee ~/bootstrapper.log
 ```
 
 Debugging
 ---------
 
-Your last Laptop run will be saved to `~/laptop.log`.
+Your last bootstrapper run will be saved to `~/bootstrapper.log`.
 Read through it to see if you can debug the issue yourself.
 If not, copy the lines where the script failed into a
-[new GitHub Issue](https://github.com/concur/laptop/issues/new) for us.
+[new GitHub Issue](https://github.com/concur/bootstrapper/issues/new) for us.
 Or, attach the whole log file as an attachment.
 
 OS X El Capitan (10.11)
@@ -132,10 +132,10 @@ Toolchain and configuration:
 
 It should take less than 15 minutes to install (depends on your machine).
 
-Customize in `~/.laptop.local`
+Customize in `~/.bootstrapper.local`
 ------------------------------
 
-Your `~/.laptop.local` is run at the end of the Laptop script.
+Your `~/.bootstrapper.local` is run at the end of the bootstrapper script.
 Put your customizations there.
 For example:
 
@@ -158,12 +158,12 @@ fi
 Write your customizations such that they can be run safely more than once.
 See the `mac` script for examples.
 
-Laptop functions such as `fancy_echo`,
+Bootstrapper functions such as `fancy_echo`,
 `brew_install_or_upgrade`,
 `brew_tap`,
 `brew_launchctl_restart`, and
 `gem_install_or_update`
-can be used in your `~/.laptop.local`.
+can be used in your `~/.bootstrapper.local`.
 
 Contributing
 ------------
