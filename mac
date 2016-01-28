@@ -1,0 +1,236 @@
+#!/bin/sh
+
+# Welcome to the Concur Platform R&D bootstrapper!
+# Be prepared to turn your laptop (or desktop, no haters here)
+# into an awesome development machine.
+
+fancy_echo() {
+  local fmt="$1"; shift
+
+  # shellcheck disable=SC2059
+  printf "\n$fmt\n" "$@"
+}
+
+append_to_zshrc() {
+  local text="$1" zshrc
+  local skip_new_line="${2:-0}"
+
+  if [ -w "$HOME/.zshrc.local" ]; then
+    zshrc="$HOME/.zshrc.local"
+  else
+    zshrc="$HOME/.zshrc"
+  fi
+
+  if ! grep -Fqs "$text" "$zshrc"; then
+    if [ "$skip_new_line" -eq 1 ]; then
+      printf "%s\n" "$text" >> "$zshrc"
+    else
+      printf "\n%s\n" "$text" >> "$zshrc"
+    fi
+  fi
+}
+
+# shellcheck disable=SC2154
+trap 'ret=$?; test $ret -ne 0 && printf "failed\n\n" >&2; exit $ret' EXIT
+
+set -e
+
+if [ ! -d "$HOME/.bin/" ]; then
+  mkdir "$HOME/.bin"
+fi
+
+if [ ! -f "$HOME/.zshrc" ]; then
+  touch "$HOME/.zshrc"
+fi
+
+# shellcheck disable=SC2016
+append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
+
+if [ -d "/usr/local" ]; then
+  if ! [ -r "/usr/local" ]; then
+    sudo chown -R "$(whoami)":admin /usr/local
+  fi
+else
+  sudo mkdir /usr/local
+  sudo chflags norestricted /usr/local
+  sudo chown -R "$(whoami)":admin /usr/local
+fi
+
+case "$SHELL" in
+  */zsh) : ;;
+  *)
+    fancy_echo "Changing your shell to zsh ..."
+      chsh -s "$(which zsh)"
+    ;;
+esac
+
+brew_install_or_upgrade() {
+  if brew_is_installed "$1"; then
+    if brew_is_upgradable "$1"; then
+      brew upgrade "$@"
+    fi
+  else
+    brew install "$@"
+  fi
+}
+
+brew_is_installed() {
+  local name
+  name="$(brew_expand_alias "$1")"
+
+  brew list -1 | grep -Fqx "$name"
+}
+
+brew_is_upgradable() {
+  local name
+  name="$(brew_expand_alias "$1")"
+
+  ! brew outdated --quiet "$name" >/dev/null
+}
+
+brew_tap() {
+  brew tap "$1" --repair 2> /dev/null
+}
+
+brew_expand_alias() {
+  brew info "$1" 2>/dev/null | head -1 | awk '{gsub(/.*\//, ""); gsub(/:/, ""); print $1}'
+}
+
+brew_launchctl_restart() {
+  local name
+  name="$(brew_expand_alias "$1")"
+  local domain="homebrew.mxcl.$name"
+  local plist="$domain.plist"
+
+  mkdir -p "$HOME/Library/LaunchAgents"
+  ln -sfv "/usr/local/opt/$name/$plist" "$HOME/Library/LaunchAgents"
+
+  if launchctl list | grep -Fq "$domain"; then
+    launchctl unload "$HOME/Library/LaunchAgents/$plist" >/dev/null
+  fi
+  launchctl load "$HOME/Library/LaunchAgents/$plist" >/dev/null
+}
+
+gem_install_or_update() {
+  if gem list "$1" --installed > /dev/null; then
+    gem update "$@"
+  else
+    gem install "$@"
+    rbenv rehash
+  fi
+}
+
+if ! command -v brew >/dev/null; then
+  fancy_echo "Installing Homebrew ..."
+    curl -fsS \
+      'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
+
+    append_to_zshrc '# recommended by brew doctor'
+
+    # shellcheck disable=SC2016
+    append_to_zshrc 'export PATH="/usr/local/bin:$PATH"' 1
+
+    export PATH="/usr/local/bin:$PATH"
+fi
+
+if brew list | grep -Fq brew-cask; then
+  fancy_echo "Uninstalling old Homebrew-Cask ..."
+  brew uninstall --force brew-cask
+fi
+
+fancy_echo "Updating Homebrew formulae ..."
+brew_tap 'thoughtbot/formulae'
+
+brew update
+
+fancy_echo "Updating Unix tools ..."
+brew_install_or_upgrade 'ctags'
+brew_install_or_upgrade 'git'
+brew_install_or_upgrade 'openssl'
+brew_install_or_upgrade 'rcm'
+brew_install_or_upgrade 'reattach-to-user-namespace'
+brew_install_or_upgrade 'the_silver_searcher'
+brew_install_or_upgrade 'tmux'
+brew_install_or_upgrade 'emacs'
+brew_install_or_upgrade 'vim'
+brew_install_or_upgrade 'zsh'
+
+if [ ! -d "$HOME/.emacs.d"]; then
+  git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+else
+  pushd $HOME/.emacs.d
+  git pull --rebase
+  popd
+fi
+
+fancy_echo "Updating utilities ..."
+brew_install_or_upgrade 'httpie'
+brew_install_or_upgrade 'jq'
+
+
+fancy_echo "Updating GitHub tools ..."
+brew_install_or_upgrade 'hub'
+
+fancy_echo "Updating image tools ..."
+brew_install_or_upgrade 'imagemagick'
+
+fancy_echo "Updating toolchain ..."
+brew_install_or_upgrade 'docker'
+brew_install_or_upgrade 'docker-compose'
+brew_install_or_upgrade 'kubernetes-cli'
+brew_install_or_upgrade 'libyaml' # should come after openssl
+brew_install_or_upgrade 'nvm'
+brew_install_or_upgrade 'rbenv'
+brew_install_or_upgrade 'ruby-build'
+
+fancy_echo "Configuring Node ..."
+find_latest_node_lts() {
+  # Grabs the version from every release and uses a Regex to select only LTS
+  # releases. The major part of the version will always be even for LTS releases
+  # and since the latest is always at the top, we just pull the zero index.
+  curl --silent https://nodejs.org/dist/index.json | jq '[.[].version | match("[0-9]*[02468].[0-9]+.[0-9]+"; "g")] | .[0].string' | sed -e 's/^"//'  -e 's/"$//'
+}
+node_version="$(find_latest_node_lts)"
+mkdir -p $HOME/.nvm
+
+# shellcheck disable=SC2016
+append_to_zshrc 'export NVM_DIR="$HOME/.nvm"'
+
+# shellcheck disable=SC2016
+append_to_zshrc 'source $(brew --prefix nvm)/nvm.sh' 1
+
+export NVM_DIR="$HOME/.nvm"
+. "$(brew --prefix nvm)/nvm.sh"
+#nvm install "$node_version"
+if ! nvm ls "$node_version" | grep -Fq "$node_version"; then
+  nvm install "$node_version"
+fi
+
+nvm alias default "$node_version"
+
+fancy_echo "Configuring Ruby ..."
+find_latest_ruby() {
+  rbenv install -l | grep -v - | tail -1 | sed -e 's/^ *//'
+}
+
+ruby_version="$(find_latest_ruby)"
+# shellcheck disable=SC2016
+append_to_zshrc 'eval "$(rbenv init - --no-rehash)"' 1
+eval "$(rbenv init -)"
+
+if ! rbenv versions | grep -Fq "$ruby_version"; then
+  RUBY_CONFIGURE_OPTS=--with-openssl-dir=/usr/local/opt/openssl rbenv install -s "$ruby_version"
+fi
+
+rbenv global "$ruby_version"
+rbenv shell "$ruby_version"
+gem update --system
+gem_install_or_update 'bundler'
+number_of_cores=$(sysctl -n hw.ncpu)
+bundle config --global jobs $((number_of_cores - 1))
+
+if [ -f "$HOME/.laptop.local" ]; then
+  fancy_echo "Running your customizations from ~/.laptop.local ..."
+  # shellcheck disable=SC1090
+  . "$HOME/.laptop.local"
+fi
