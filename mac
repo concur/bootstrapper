@@ -155,12 +155,11 @@ brew_install_or_upgrade 'emacs'
 brew_install_or_upgrade 'vim'
 brew_install_or_upgrade 'zsh'
 
-if [ ! -d "$HOME/.emacs.d/" ]; then
-  git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+fancy_echo "Updating spacemacs ..."
+if [ ! -d "$HOME/.emacs.d" ]; then
+  git clone https://github.com/syl20bnr/spacemacs $HOME/.emacs.d
 else
-  pushd $HOME/.emacs.d
-  git pull --rebase
-  popd
+  cd $HOME/.emacs.d && git pull --rebase && cd $OLDPWD
 fi
 
 fancy_echo "Updating utilities ..."
