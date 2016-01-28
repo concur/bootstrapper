@@ -200,7 +200,6 @@ append_to_zshrc 'source $(brew --prefix nvm)/nvm.sh' 1
 
 export NVM_DIR="$HOME/.nvm"
 . "$(brew --prefix nvm)/nvm.sh"
-#nvm install "$node_version"
 if ! nvm ls "$node_version" | grep -Fq "$node_version"; then
   nvm install "$node_version"
 fi
@@ -229,7 +228,7 @@ number_of_cores=$(sysctl -n hw.ncpu)
 bundle config --global jobs $((number_of_cores - 1))
 
 if [ -f "$HOME/.bootstrapper.local" ]; then
-  fancy_echo "Running your customizations from ~/.laptop.local ..."
+  fancy_echo "Running your customizations from ~/.bootstrapper.local ..."
   # shellcheck disable=SC1090
   . "$HOME/.bootstrapper.local"
 fi
