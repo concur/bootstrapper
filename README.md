@@ -25,9 +25,9 @@ Install
 Download, review, then execute the script:
 
 ```sh
-curl --remote-name https://raw.githubusercontent.com/concur/bootstrapper/master/mac
-less mac
-sh mac 2>&1 | tee ~/bootstrapper.log
+git clone git@github.com:concur/bootstrapper.git
+cd bootstrapper
+sh mac 2>&1 | tee bootstrapper.log
 ```
 
 Debugging
