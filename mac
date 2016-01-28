@@ -155,7 +155,7 @@ brew_install_or_upgrade 'emacs'
 brew_install_or_upgrade 'vim'
 brew_install_or_upgrade 'zsh'
 
-if [ ! -d "$HOME/.emacs.d"]; then
+if [ ! -d "$HOME/.emacs.d/" ]; then
   git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
 else
   pushd $HOME/.emacs.d
@@ -229,8 +229,8 @@ gem_install_or_update 'bundler'
 number_of_cores=$(sysctl -n hw.ncpu)
 bundle config --global jobs $((number_of_cores - 1))
 
-if [ -f "$HOME/.laptop.local" ]; then
+if [ -f "$HOME/.bootstrapper.local" ]; then
   fancy_echo "Running your customizations from ~/.laptop.local ..."
   # shellcheck disable=SC1090
-  . "$HOME/.laptop.local"
+  . "$HOME/.bootstrapper.local"
 fi
