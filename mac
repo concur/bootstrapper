@@ -89,7 +89,7 @@ brew_is_upgradable() {
 }
 
 brew_tap() {
-  brew tap "$1" --repair 2> /dev/null
+  brew tap "$1" 2> /dev/null
 }
 
 brew_expand_alias() {
@@ -119,6 +119,13 @@ gem_install_or_update() {
     rbenv rehash
   fi
 }
+
+if [ ! -d "/Library/Developer/CommandLineTools" ]; then
+  fancy_echo "Need to install command line tools ..."
+  fancy_echo "When complete, re-run the bootstrapper ..."
+  2>/dev/null 1>&2 xcode-select --install
+  exit 0
+fi
 
 if ! command -v brew >/dev/null; then
   fancy_echo "Installing Homebrew ..."
@@ -177,6 +184,9 @@ brew_install_or_upgrade 'emacs'
 brew_install_or_upgrade 'vim'
 brew_install_or_upgrade 'zsh'
 brew_install_or_upgrade 'tree'
+
+# shellcheck disable=SC2016
+append_to_zshrc 'alias ls="ls --color"'
 
 # TODO: Move to dotfiles
 fancy_echo "Updating spacemacs ..."
@@ -242,7 +252,7 @@ find_latest_ruby() {
 
 ruby_version="$(find_latest_ruby)"
 # shellcheck disable=SC2016
-append_to_zshrc 'eval "$(rbenv init - --no-rehash)"' 1
+append_to_zshrc 'eval "$(rbenv init - --no-rehash)"'
 eval "$(rbenv init -)"
 
 if ! rbenv versions | grep -Fq "$ruby_version"; then
