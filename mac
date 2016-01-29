@@ -220,6 +220,7 @@ brew_install_or_upgrade 'rbenv'
 brew_install_or_upgrade 'ruby-build'
 brew_install_or_upgrade 'python'
 brew_install_or_upgrade 'elixir'
+brew_install_or_upgrade 'rust'
 
 fancy_echo "Configuring Node ..."
 find_latest_node_lts() {
