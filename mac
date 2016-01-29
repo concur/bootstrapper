@@ -204,6 +204,7 @@ brew_install_or_upgrade 'libyaml' # should come after openssl
 brew_install_or_upgrade 'nvm'
 brew_install_or_upgrade 'rbenv'
 brew_install_or_upgrade 'ruby-build'
+brew_install_or_upgrade 'python'
 
 fancy_echo "Configuring Node ..."
 find_latest_node_lts() {
@@ -249,6 +250,10 @@ gem update --system
 gem_install_or_update 'bundler'
 number_of_cores=$(sysctl -n hw.ncpu)
 bundle config --global jobs $((number_of_cores - 1))
+
+fancy_echo "Configuring Python ..."
+pip install --upgrade pip
+pip install --upgrade virtualenv
 
 if [ -f "$HOME/.bootstrapper.local" ]; then
   fancy_echo "Running your customizations from ~/.bootstrapper.local ..."
