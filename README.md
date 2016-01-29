@@ -168,7 +168,7 @@ Toolchain and configuration:
 [kubectl]: https://cloud.google.com/container-engine/docs/kubectl/
 [docker]: https://www.docker.com/
 [docker-compose]: https://www.docker.com/products/docker-compose
-[terrform]: https://www.terraform.io/
+[terraform]: https://www.terraform.io/
 [packer]: https://www.packer.io/
 [vault]: https://www.vaultproject.io/
 
