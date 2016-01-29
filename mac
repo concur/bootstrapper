@@ -275,7 +275,7 @@ pip install --upgrade virtualenv
 fancy_echo "Configuring Go ..."
 mkdir -p "$HOME/Go"
 # shellcheck disable=SC2016
-append_to_zshrc 'export GOPATH=$HOME/Go"'
+append_to_zshrc 'export GOPATH="$HOME/Go"'
 
 if [ -f "$HOME/.bootstrapper.local" ]; then
   fancy_echo "Running your customizations from ~/.bootstrapper.local ..."
