@@ -221,6 +221,7 @@ brew_install_or_upgrade 'ruby-build'
 brew_install_or_upgrade 'python'
 brew_install_or_upgrade 'elixir'
 brew_install_or_upgrade 'rust'
+brew_install_or_upgrade 'go'
 
 fancy_echo "Configuring Node ..."
 find_latest_node_lts() {
@@ -270,6 +271,11 @@ bundle config --global jobs $((number_of_cores - 1))
 fancy_echo "Configuring Python ..."
 pip install --upgrade pip
 pip install --upgrade virtualenv
+
+fancy_echo "Configuring Go ..."
+mkdir -p "$HOME/Go"
+# shellcheck disable=SC2016
+append_to_zshrc 'export GOPATH=$HOME/Go"'
 
 if [ -f "$HOME/.bootstrapper.local" ]; then
   fancy_echo "Running your customizations from ~/.bootstrapper.local ..."
