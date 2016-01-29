@@ -205,6 +205,7 @@ brew_install_or_upgrade 'nvm'
 brew_install_or_upgrade 'rbenv'
 brew_install_or_upgrade 'ruby-build'
 brew_install_or_upgrade 'python'
+brew_install_or_upgrade 'elixir'
 
 fancy_echo "Configuring Node ..."
 find_latest_node_lts() {
