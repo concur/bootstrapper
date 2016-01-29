@@ -85,6 +85,7 @@ Unix tools:
 * [Vim] for an alternative text editor
 * [Tmux] for saving project state and switching between projects
 * [Zsh] as your shell
+* [tree] displays directories as trees (with optional color/HTML output)
 
 [binutils]: https://www.gnu.org/software/binutils/binutils.html
 [diffutils]: https://www.gnu.org/software/diffutils/
@@ -111,6 +112,7 @@ Unix tools:
 [Vim]: http://www.vim.org/
 [Tmux]: http://tmux.github.io/
 [Zsh]: http://www.zsh.org/
+[tree]: http://mama.indstate.edu/users/ice/tree/
 
 Utilities:
 

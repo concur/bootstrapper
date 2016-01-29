@@ -176,6 +176,7 @@ brew_install_or_upgrade 'tmux'
 brew_install_or_upgrade 'emacs'
 brew_install_or_upgrade 'vim'
 brew_install_or_upgrade 'zsh'
+brew_install_or_upgrade 'tree'
 
 # TODO: Move to dotfiles
 fancy_echo "Updating spacemacs ..."
