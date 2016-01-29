@@ -140,10 +140,32 @@ fi
 
 fancy_echo "Updating Homebrew formulae ..."
 brew_tap 'thoughtbot/formulae'
+brew_tap 'homebrew/dupes'
 
 brew update
 
 fancy_echo "Updating Unix tools ..."
+brew_install_or_upgrade 'coreutils'
+
+# shellcheck disable=SC2016
+append_to_zshrc 'export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH"'
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH"
+
+brew_install_or_upgrade 'binutils'
+brew_install_or_upgrade 'diffutils'
+brew_install_or_upgrade 'ed' --with-default-names
+brew_install_or_upgrade 'findutils' --with-default-names
+brew_install_or_upgrade 'gawk'
+brew_install_or_upgrade 'gnu-indent' --with-default-names
+brew_install_or_upgrade 'gnu-sed' --with-default-names
+brew_install_or_upgrade 'gnu-tar' --with-default-names
+brew_install_or_upgrade 'gnu-which' --with-default-names
+brew_install_or_upgrade 'gnutls'
+brew_install_or_upgrade 'grep' --with-default-names
+brew_install_or_upgrade 'gzip'
+brew_install_or_upgrade 'watch'
+brew_install_or_upgrade 'wdiff' --with-gettext
+brew_install_or_upgrade 'wget'
 brew_install_or_upgrade 'ctags'
 brew_install_or_upgrade 'git'
 brew_install_or_upgrade 'openssl'
@@ -155,6 +177,7 @@ brew_install_or_upgrade 'emacs'
 brew_install_or_upgrade 'vim'
 brew_install_or_upgrade 'zsh'
 
+# TODO: Move to dotfiles
 fancy_echo "Updating spacemacs ..."
 if [ ! -d "$HOME/.emacs.d" ]; then
   git clone https://github.com/syl20bnr/spacemacs $HOME/.emacs.d
