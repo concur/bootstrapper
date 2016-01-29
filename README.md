@@ -148,6 +148,8 @@ Toolchain and configuration:
 * [Ruby] stable for writing general-purpose code
 * [Python] stable for writing general-purpose code with pip and virtualenv configured
 * [Elixir] stable for writing general-purpose code
+* [Rust] stable for writing general-purpose code
+* [Go] stable for writing general-purpose code
 * [kubectl] for controlling Kubernetes clusters
 * [docker] what Virtual Machines did for Operating Systems, Docker does for processes
 * [docker-compose] lets you define a multi-container application in a single file
@@ -165,6 +167,8 @@ Toolchain and configuration:
 [Ruby]: https://www.ruby-lang.org/en/
 [Python]: https://www.python.org/
 [Elixir]: http://elixir-lang.org/
+[Rust]: https://rust-lang.org/
+[Go]: https://golang.org/
 [kubectl]: https://cloud.google.com/container-engine/docs/kubectl/
 [docker]: https://www.docker.com/
 [docker-compose]: https://www.docker.com/products/docker-compose
