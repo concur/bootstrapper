@@ -61,6 +61,21 @@ Mac OS X tools:
 
 Unix tools:
 
+* [binutils] a collection of binary tools
+* [diffutils] a package of several programs related to finding differences between files
+* [ed] the original text editor for Unix
+* [findutils] are the basic directory searching utilities of the GNU operating system
+* [gawk] to select particular records in a file and perform operations upon them
+* [indent] a code prettifier
+* [sed] the famous stream editor
+* [tar] the famous archiving utility
+* [which] the famous which utility
+* [gnutls] the Transport Layer Security (TLS) Library
+* [grep] search files for lines containing a match to a specified pattern, take a look at Silver Searcher as well
+* [gzip] a data compression program
+* [watch] executes a program periodically, showing output fullscreen
+* [wdiff] displays word differences between text files
+* [wget] an internet file retriever
 * [Exuberant Ctags] for indexing files for vim tab completion
 * [Git] for version control
 * [OpenSSL] for Transport Layer Security (TLS)
@@ -71,6 +86,21 @@ Unix tools:
 * [Tmux] for saving project state and switching between projects
 * [Zsh] as your shell
 
+[binutils]: https://www.gnu.org/software/binutils/binutils.html
+[diffutils]: https://www.gnu.org/software/diffutils/
+[ed]: https://www.gnu.org/software/ed/ed.html
+[findutils]: http://www.gnu.org/software/findutils/
+[gawk]: https://www.gnu.org/software/gawk/
+[indent]: https://www.gnu.org/software/indent/
+[sed]: https://www.gnu.org/software/sed/
+[tar]: https://www.gnu.org/software/tar/
+[which]: https://savannah.gnu.org/projects/which/
+[gnutls]: http://gnutls.org/
+[grep]: https://www.gnu.org/software/grep/
+[gzip]: https://www.gnu.org/software/gzip
+[watch]: https://gitlab.com/procps-ng/procps
+[wdiff]: https://www.gnu.org/software/wdiff/
+[wget]: https://www.gnu.org/software/wget/
 [Exuberant Ctags]: http://ctags.sourceforge.net/
 [Git]: https://git-scm.com/
 [OpenSSL]: https://www.openssl.org/
@@ -114,6 +144,8 @@ Toolchain and configuration:
 * [Rbenv] for managing versions of Ruby
 * [Ruby Build] for installing Rubies
 * [Ruby] stable for writing general-purpose code
+* [Python] stable for writing general-purpose code with pip and virtualenv configured
+* [Elixir] stable for writing general-purpose code
 * [kubectl]: for controlling Kubernetes clusters
 * [docker] what Virtual Machines did for Operating Systems, Docker does for processes
 * [docker-compose] lets you define a multi-container application in a single file
@@ -126,6 +158,8 @@ Toolchain and configuration:
 [Rbenv]: https://github.com/sstephenson/rbenv
 [Ruby Build]: https://github.com/sstephenson/ruby-build
 [Ruby]: https://www.ruby-lang.org/en/
+[Python]: https://www.python.org/
+[Elixir]: http://elixir-lang.org/
 [kubectl]: https://cloud.google.com/container-engine/docs/kubectl/
 [docker]: https://www.docker.com/
 [docker-compose]: https://www.docker.com/products/docker-compose
