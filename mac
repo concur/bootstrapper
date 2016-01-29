@@ -200,6 +200,9 @@ fancy_echo "Updating toolchain ..."
 brew_install_or_upgrade 'docker'
 brew_install_or_upgrade 'docker-compose'
 brew_install_or_upgrade 'kubernetes-cli'
+brew_install_or_upgrade 'packer'
+brew_install_or_upgrade 'vault'
+brew_install_or_upgrade 'terraform'
 brew_install_or_upgrade 'libyaml' # should come after openssl
 brew_install_or_upgrade 'nvm'
 brew_install_or_upgrade 'rbenv'

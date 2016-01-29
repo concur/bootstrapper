@@ -146,9 +146,12 @@ Toolchain and configuration:
 * [Ruby] stable for writing general-purpose code
 * [Python] stable for writing general-purpose code with pip and virtualenv configured
 * [Elixir] stable for writing general-purpose code
-* [kubectl]: for controlling Kubernetes clusters
+* [kubectl] for controlling Kubernetes clusters
 * [docker] what Virtual Machines did for Operating Systems, Docker does for processes
 * [docker-compose] lets you define a multi-container application in a single file
+* [terraform] for building, combining, and launching infrastructure
+* [packer] a tool for creating machine and container images for multiple platforms
+* [vault] a tool for managing secrets
 
 [Bundler]: http://bundler.io/
 [ImageMagick]: http://www.imagemagick.org/
@@ -163,6 +166,9 @@ Toolchain and configuration:
 [kubectl]: https://cloud.google.com/container-engine/docs/kubectl/
 [docker]: https://www.docker.com/
 [docker-compose]: https://www.docker.com/products/docker-compose
+[terrform]: https://www.terraform.io/
+[packer]: https://www.packer.io/
+[vault]: https://www.vaultproject.io/
 
 It should take less than 15 minutes to install (depends on your machine).
 
