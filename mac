@@ -181,9 +181,9 @@ brew_install_or_upgrade 'tree'
 # TODO: Move to dotfiles
 fancy_echo "Updating spacemacs ..."
 if [ ! -d "$HOME/.emacs.d" ]; then
-  git clone https://github.com/syl20bnr/spacemacs $HOME/.emacs.d
+  git clone https://github.com/syl20bnr/spacemacs "$HOME/.emacs.d"
 else
-  cd $HOME/.emacs.d && git pull --rebase && cd $OLDPWD
+  cd "$HOME/.emacs.d" && git pull --rebase && cd "$OLDPWD"
 fi
 
 fancy_echo "Updating utilities ..."
@@ -219,7 +219,7 @@ find_latest_node_lts() {
   curl --silent https://nodejs.org/dist/index.json | jq '[.[].version | match("[0-9]*[02468].[0-9]+.[0-9]+"; "g")] | .[0].string' | sed -e 's/^"//'  -e 's/"$//'
 }
 node_version="$(find_latest_node_lts)"
-mkdir -p $HOME/.nvm
+mkdir -p "$HOME/.nvm"
 
 # shellcheck disable=SC2016
 append_to_zshrc 'export NVM_DIR="$HOME/.nvm"'
