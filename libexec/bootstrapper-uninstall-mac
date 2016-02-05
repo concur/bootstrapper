@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+set -e
+
+[ -n "$BOOTSTRAPPER_DEBUG" ] && set -x
+
+echo "Uninstalling git-radar ..."
+rm -rf "$HOME/.git-radar"
+
+echo "Uninstalling Certifi CA Bundle ..."
+rm -rf "$HOME/.ca-bundle"
+
+if command -v brew >/dev/null; then
+  echo "Uninstalling Homebrew ..."
+  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)"
+fi
+
+echo "Restoring /usr/local permissions ..."
+sudo chmod -R 0755 /usr/local
+sudo chown -R root:wheel /usr/local
+
+echo "Restoring /bin/bash as your shell ..."
+chsh -s /bin/bash
+
+echo -n "Remove .zshrc file (y/n)? "
+read answer
+if echo "$answer" | grep -iq "^y" ;then
+  # rm is fully qualified to make sure we're using the correct rm
+  /bin/rm -rf "$HOME/.zshrc"
+fi
+
+echo "Uninstalling Command Line Tools ..."
+# rm is fully qualified to make sure we're using the correct rm
+sudo /bin/rm -rf /Library/Developer/CommandLineTools

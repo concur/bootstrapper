@@ -22,13 +22,29 @@ versions are welcome.
 Install
 -------
 
-Download, review, then execute the script:
+If you are starting on a fresh new machine, continue with the following steps:
+
+1. [VMware Fusion][vmware] installed via download and running the installer.
+2. [Vagrant][vagrant] installed via download and running the installer.
+3. [Vagrant-VMware Plugin][vagrant-vmware] buy a license and follow directions in email.
+4. Clone, review, then execute the script and follow the instructions:
 
 ```sh
 git clone git@github.com:concur/bootstrapper.git
 cd bootstrapper
-sh mac 2>&1 | tee bootstrapper.log
+./bin/bootstrapper install-mac 2>&1 | tee bootstrapper.log
 ```
+
+If you are not starting with a fresh machine, you will want to try running the
+[uninstall] process first. That will help get you part of the way to a fresh
+machine, since more than likely you used Homebrew for some things. Since we're
+helping you install a common toolchain, it's best to remove anything else you
+installed outside of Homebrew manually, to avoid conflicts.
+
+[vmware]: http://www.vmware.com/products/fusion/
+[vagrant]: https://www.vagrantup.com/
+[vagrant-vmware]: http://www.vagrantup.com/vmware/
+[uninstall]: #uninstall
 
 Debugging
 ---------
@@ -81,7 +97,6 @@ Unix tools:
 * [OpenSSL] for Transport Layer Security (TLS)
 * [RCM] for managing company and personal dotfiles
 * [The Silver Searcher] for finding things in files
-* [Emacs] for a powerful text editor with [Spacemacs]
 * [Vim] for an alternative text editor
 * [Tmux] for saving project state and switching between projects
 * [Zsh] as your shell
@@ -107,8 +122,6 @@ Unix tools:
 [OpenSSL]: https://www.openssl.org/
 [RCM]: https://github.com/thoughtbot/rcm
 [The Silver Searcher]: https://github.com/ggreer/the_silver_searcher
-[Emacs]: https://www.gnu.org/software/emacs/
-[Spacemacs]: http://spacemacs.org/
 [Vim]: http://www.vim.org/
 [Tmux]: http://tmux.github.io/
 [Zsh]: http://www.zsh.org/
@@ -118,9 +131,13 @@ Utilities:
 
 * [httpie] for a prettier console HTTP client
 * [jq] for processing JSON from the console like grep is for text
+* [git-radar] a heads up display for git
+* [Certifi CA Bundle][certifi] a carefully curated collection of Root Certificates
 
 [httpie]: https://github.com/jkbrzt/httpie
 [jq]: https://stedolan.github.io/jq/
+[git-radar]: https://github.com/michaeldfallen/git-radar
+[certifi]: https://certifi.io/
 
 GitHub tools:
 
@@ -132,11 +149,7 @@ Image tools:
 
 * [ImageMagick] for cropping and resizing images
 
-Testing tools:
-
-* [Qt] for headless JavaScript testing via Capybara Webkit
-
-[Qt]: http://qt-project.org/
+[ImageMagick]: http://www.imagemagick.org/
 
 Toolchain and configuration:
 
@@ -158,7 +171,6 @@ Toolchain and configuration:
 * [vault] a tool for managing secrets
 
 [Bundler]: http://bundler.io/
-[ImageMagick]: http://www.imagemagick.org/
 [Node.js]: http://nodejs.org/
 [NPM]: https://www.npmjs.org/
 [NVM]: https://github.com/creationix/nvm
@@ -179,14 +191,14 @@ Toolchain and configuration:
 It should take less than 15 minutes to install (depends on your machine).
 
 Customize in `~/.bootstrapper.local`
-------------------------------
+------------------------------------
 
 Your `~/.bootstrapper.local` is run at the end of the bootstrapper script.
 Put your customizations there.
 For example:
 
 ```sh
-#!/bin/sh
+#!/usr/bin/env bash
 
 brew_install_or_upgrade 'ranger'
 brew_install_or_upgrade 'tig'
@@ -202,7 +214,7 @@ fi
 ```
 
 Write your customizations such that they can be run safely more than once.
-See the `mac` script for examples.
+See the `libexec/bootstrapper-install-mac` script for examples.
 
 Bootstrapper functions such as `fancy_echo`,
 `brew_install_or_upgrade`,
@@ -211,10 +223,21 @@ Bootstrapper functions such as `fancy_echo`,
 `gem_install_or_update`
 can be used in your `~/.bootstrapper.local`.
 
+Uninstall
+---------
+
+```sh
+./bin/bootstrapper uninstall-mac 2>&1 | tee bootstrapper.log
+```
+
+You will be prompted to delete your .zshrc file if you're not going to
+need it anymore, answer with a `y`.
+
 Contributing
 ------------
 
-Edit the `mac` file.
+Reach out to see if what you want to add qualifies to be in the install list.
+Edit the `libexec/bootstrapper-install-mac` file.
 Document in the `README.md` file.
 Follow shell style guidelines by using [ShellCheck] and [Syntastic].
 
@@ -226,7 +249,7 @@ brew install shellcheck
 [Syntastic]: https://github.com/scrooloose/syntastic
 
 Thanks
-----------------
+------
 
 This repo and script was heavily inspired by [Thoughtbot's][thoughtbot]
 [Laptop][laptop] script.
