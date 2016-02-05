@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -e
+
+[ -n "$BOOTSTRAPPER_DEBUG" ] && set -x
+
+echo "usage: bootstrapper <command> [<args>]
+
+Some useful bootstrapper commands are:
+install-mac         Install the toolchain for a mac
+uninstall-mac       Uninstall the toolchain for a mac"

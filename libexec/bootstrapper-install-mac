@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-# Welcome to the Concur Platform R&D bootstrapper!
-# Be prepared to turn your laptop (or desktop, no haters here)
-# into an awesome development machine.
+set -e
+
+[ -n "$BOOTSTRAPPER_DEBUG" ] && set -x
 
 fancy_echo() {
   local fmt="$1"; shift
@@ -30,39 +30,18 @@ append_to_zshrc() {
   fi
 }
 
-# shellcheck disable=SC2154
-trap 'ret=$?; test $ret -ne 0 && printf "failed\n\n" >&2; exit $ret' EXIT
+path_exists_in_env() {
+  local result=false
+  local paths="$(echo $PATH | sed 's/:/ /g')"
+  for path in $paths
+  do
+    [[ ! $path = "$1" ]] && continue
 
-set -e
+    result=true
+  done
 
-if [ ! -d "$HOME/.bin/" ]; then
-  mkdir "$HOME/.bin"
-fi
-
-if [ ! -f "$HOME/.zshrc" ]; then
-  touch "$HOME/.zshrc"
-fi
-
-# shellcheck disable=SC2016
-append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
-
-if [ -d "/usr/local" ]; then
-  if ! [ -r "/usr/local" ]; then
-    sudo chown -R "$(whoami)":admin /usr/local
-  fi
-else
-  sudo mkdir /usr/local
-  sudo chflags norestricted /usr/local
-  sudo chown -R "$(whoami)":admin /usr/local
-fi
-
-case "$SHELL" in
-  */zsh) : ;;
-  *)
-    fancy_echo "Changing your shell to zsh ..."
-      chsh -s "$(which zsh)"
-    ;;
-esac
+  echo $result
+}
 
 brew_install_or_upgrade() {
   if brew_is_installed "$1"; then
@@ -120,24 +99,72 @@ gem_install_or_update() {
   fi
 }
 
+git_clone_or_pull() {
+  local repo_src=$1
+  local local_repo=$2
+  local local_repo_vc_dir=$local_repo/.git
+  if [[ ! -d "$local_repo_vc_dir" ]]; then
+    git clone --recursive "$repo_src" "$local_repo" 2>/dev/null 1>&2
+  else
+    pushd "$local_repo" >/dev/null
+    local origin_url="$(git remote get-url origin)"
+    if [ "$repo_src" = "$origin_url" ]; then
+      git pull "$repo_src" 2>/dev/null 1>&2
+      git submodule update --init --recursive 2>/dev/null 1>&2
+    fi
+    popd >/dev/null
+  fi
+}
+
+# shellcheck disable=SC2154
+trap 'ret=$?; test $ret -ne 0 && printf "failed\n\n" >&2; exit $ret' EXIT
+
 if [ ! -d "/Library/Developer/CommandLineTools" ]; then
   fancy_echo "Need to install command line tools ..."
-  fancy_echo "When complete, re-run the bootstrapper ..."
+  fancy_echo "When complete, re-run Bootstrapper ..."
   2>/dev/null 1>&2 xcode-select --install
   exit 0
 fi
 
+if [ ! -f "$HOME/.zshrc" ]; then
+  touch "$HOME/.zshrc"
+fi
+
+case "$SHELL" in
+  */zsh) : ;;
+  *)
+    fancy_echo "Changing your shell to zsh ..."
+    chsh -s "$(which zsh)"
+    ;;
+esac
+
+fancy_echo "Preparing /usr/local ..."
+if [ -d "/usr/local" ]; then
+  sudo chown -R "$(whoami)":admin /usr/local
+else
+  sudo mkdir /usr/local
+  sudo chflags norestricted /usr/local
+  sudo chown -R "$(whoami)":admin /usr/local
+fi
+
+path_exists=$(path_exists_in_env "/usr/local/bin")
+if ! $path_exists; then
+  # shellcheck disable=SC2016
+  append_to_zshrc 'export PATH="/usr/local/bin:$PATH"' 1
+  export PATH="/usr/local/bin:$PATH"
+fi
+
+if [ ! -d "$HOME/.bin/" ]; then
+  mkdir "$HOME/.bin"
+fi
+
+# shellcheck disable=SC2016
+append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
+
 if ! command -v brew >/dev/null; then
   fancy_echo "Installing Homebrew ..."
-    curl -fsS \
-      'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
-
-    append_to_zshrc '# recommended by brew doctor'
-
-    # shellcheck disable=SC2016
-    append_to_zshrc 'export PATH="/usr/local/bin:$PATH"' 1
-
-    export PATH="/usr/local/bin:$PATH"
+  curl -fsS \
+    'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
 fi
 
 if brew list | grep -Fq brew-cask; then
@@ -155,8 +182,8 @@ fancy_echo "Updating Unix tools ..."
 brew_install_or_upgrade 'coreutils'
 
 # shellcheck disable=SC2016
-append_to_zshrc 'export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH"'
-export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH"
+append_to_zshrc 'export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"'
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 
 brew_install_or_upgrade 'binutils'
 brew_install_or_upgrade 'diffutils'
@@ -180,26 +207,19 @@ brew_install_or_upgrade 'rcm'
 brew_install_or_upgrade 'reattach-to-user-namespace'
 brew_install_or_upgrade 'the_silver_searcher'
 brew_install_or_upgrade 'tmux'
-brew_install_or_upgrade 'emacs'
 brew_install_or_upgrade 'vim'
 brew_install_or_upgrade 'zsh'
 brew_install_or_upgrade 'tree'
 
-# shellcheck disable=SC2016
-append_to_zshrc 'alias ls="ls --color"'
-
-# TODO: Move to dotfiles
-fancy_echo "Updating spacemacs ..."
-if [ ! -d "$HOME/.emacs.d" ]; then
-  git clone https://github.com/syl20bnr/spacemacs "$HOME/.emacs.d"
-else
-  cd "$HOME/.emacs.d" && git pull --rebase && cd "$OLDPWD"
-fi
-
 fancy_echo "Updating utilities ..."
 brew_install_or_upgrade 'httpie'
 brew_install_or_upgrade 'jq'
-
+git_clone_or_pull 'https://github.com/michaeldfallen/git-radar' "$HOME/.git-radar"
+# TODO: Make this better, create a download function
+mkdir -p /tmp/certifi-ca-bundle
+curl -sL 'https://mkcert.org/generate/' -o "/tmp/certifi-ca-bundle/certs.pem"
+mkdir -p "$HOME/.ca-bundle"
+mv "/tmp/certifi-ca-bundle/certs.pem" "$HOME/.ca-bundle/"
 
 fancy_echo "Updating GitHub tools ..."
 brew_install_or_upgrade 'hub'
@@ -228,7 +248,9 @@ find_latest_node_lts() {
   # Grabs the version from every release and uses a Regex to select only LTS
   # releases. The major part of the version will always be even for LTS releases
   # and since the latest is always at the top, we just pull the zero index.
-  curl --silent https://nodejs.org/dist/index.json | jq '[.[].version | match("[0-9]*[02468].[0-9]+.[0-9]+"; "g")] | .[0].string' | sed -e 's/^"//'  -e 's/"$//'
+  curl --silent https://nodejs.org/dist/index.json | \
+    jq '[.[].version | match("[0-9]*[02468].[0-9]+.[0-9]+"; "g")] | .[0].string' | \
+    sed -e 's/^"//'  -e 's/"$//'
 }
 node_version="$(find_latest_node_lts)"
 mkdir -p "$HOME/.nvm"
@@ -282,3 +304,5 @@ if [ -f "$HOME/.bootstrapper.local" ]; then
   # shellcheck disable=SC1090
   . "$HOME/.bootstrapper.local"
 fi
+
+fancy_echo "Finished, restart your terminal session ..."
