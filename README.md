@@ -226,6 +226,15 @@ can be used in your `~/.bootstrapper.local`.
 Uninstall
 ---------
 
+WARNING: This will uninstall Homebrew, if you have installed any applications
+using Homebrew not in the list above, they will not be reinstalled via the
+Bootstrapper `install-mac` command. Please make note of any applications and any
+custom configurations you may have setup as well. Add them to a
+`~/.bootstrapper.local` file as explained above.
+
+NOTE: It may make more sense to run any project dependencies as Docker
+containers.
+
 ```sh
 ./bin/bootstrapper uninstall-mac 2>&1 | tee bootstrapper.log
 ```
