@@ -24,7 +24,9 @@ Install
 
 If you are starting on a fresh new machine, continue with the following steps:
 
-1. [VMware Fusion][vmware] installed via download and running the installer.
+1. [VMware Fusion][vmware] installed via download and running the installer.  
+  * NOTE: In VMware Fusion 8.1, there's a port forwarding bug. Follow these
+  [steps][port-forwarding] to patch your install.
 2. [Vagrant][vagrant] installed via download and running the installer.
 3. [Vagrant-VMware Plugin][vagrant-vmware] buy a license and follow directions in email.
 4. Clone, review, then execute the script and follow the instructions:
@@ -42,6 +44,7 @@ helping you install a common toolchain, it's best to remove anything else you
 installed outside of Homebrew manually, to avoid conflicts.
 
 [vmware]: http://www.vmware.com/products/fusion/
+[port-forwarding]: https://blogs.vmware.com/teamfusion/2016/01/workaround-of-nat-port-forwarding-issue-in-fusion-8-1.html
 [vagrant]: https://www.vagrantup.com/
 [vagrant-vmware]: http://www.vagrantup.com/vmware/
 [uninstall]: #uninstall
