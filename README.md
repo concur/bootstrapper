@@ -172,6 +172,8 @@ Toolchain and configuration:
 * [terraform] for building, combining, and launching infrastructure
 * [packer] a tool for creating machine and container images for multiple platforms
 * [vault] a tool for managing secrets
+* [AWS CLI][aws-cli] a unified tool for managing AWS service via the command
+  line
 
 [Bundler]: http://bundler.io/
 [Node.js]: http://nodejs.org/
@@ -190,6 +192,7 @@ Toolchain and configuration:
 [terraform]: https://www.terraform.io/
 [packer]: https://www.packer.io/
 [vault]: https://www.vaultproject.io/
+[aws-cli]: https://aws.amazon.com/cli/
 
 It should take less than 15 minutes to install (depends on your machine).
 
