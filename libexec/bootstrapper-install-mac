@@ -269,6 +269,8 @@ fi
 
 nvm alias default "$node_version"
 
+type npm && npm install -g chokidar-cli
+
 fancy_echo "Configuring Ruby ..."
 find_latest_ruby() {
   rbenv install -l | grep -v - | tail -1 | sed -e 's/^ *//'
