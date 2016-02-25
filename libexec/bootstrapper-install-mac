@@ -127,7 +127,7 @@ if [ ! -d "/Library/Developer/CommandLineTools" ]; then
 fi
 
 if [ ! -f "$HOME/.zshrc" ]; then
-  touch "$HOME/.zshrc"
+  printf "%s\n" "[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local" >> "$HOME/.zshrc"
 fi
 
 case "$SHELL" in
@@ -268,6 +268,8 @@ if ! nvm ls "$node_version" | grep -Fq "$node_version"; then
 fi
 
 nvm alias default "$node_version"
+
+command -v npm && npm install -g chokidar-cli 2>/dev/null 1>&2
 
 fancy_echo "Configuring Ruby ..."
 find_latest_ruby() {
