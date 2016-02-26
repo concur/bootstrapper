@@ -175,6 +175,7 @@ fi
 fancy_echo "Updating Homebrew formulae ..."
 brew_tap 'thoughtbot/formulae'
 brew_tap 'homebrew/dupes'
+brew_tap 'concur/formulae'
 
 brew update
 
@@ -229,6 +230,7 @@ brew_install_or_upgrade 'imagemagick'
 
 fancy_echo "Updating toolchain ..."
 brew_install_or_upgrade 'docker'
+brew_install_or_upgrade 'dvm'
 brew_install_or_upgrade 'docker-compose'
 brew_install_or_upgrade 'kubernetes-cli'
 brew_install_or_upgrade 'packer'
@@ -307,5 +309,10 @@ if [ -f "$HOME/.bootstrapper.local" ]; then
   # shellcheck disable=SC1090
   . "$HOME/.bootstrapper.local"
 fi
+
+fancy_echo "Configuring Docker ..."
+# shellcheck disable=SC2016
+append_to_zshrc 'source $(brew --prefix dvm)/dvm.sh'
+. "$(brew --prefix dvm)/dvm.sh"
 
 fancy_echo "Finished, restart your terminal session ..."
