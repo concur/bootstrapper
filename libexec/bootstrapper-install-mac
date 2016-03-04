@@ -237,6 +237,7 @@ brew_install_or_upgrade 'packer'
 brew_install_or_upgrade 'vault'
 brew_install_or_upgrade 'terraform'
 brew_install_or_upgrade 'libyaml' # should come after openssl
+brew_install_or_upgrade 'bats'
 brew_install_or_upgrade 'nvm'
 brew_install_or_upgrade 'rbenv'
 brew_install_or_upgrade 'ruby-build'

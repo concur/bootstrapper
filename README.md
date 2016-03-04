@@ -175,6 +175,7 @@ Toolchain and configuration:
 * [AWS CLI][aws-cli] a unified tool for managing AWS service via the command
   line
 * [dvm] a docker version manager
+* [bats] a bash automated testing system
 
 [Bundler]: http://bundler.io/
 [Node.js]: http://nodejs.org/
@@ -195,6 +196,7 @@ Toolchain and configuration:
 [vault]: https://www.vaultproject.io/
 [aws-cli]: https://aws.amazon.com/cli/
 [dvm]: https://github.com/getcarina/dvm
+[bats]: https://github.com/sstephenson/bats
 
 It should take less than 15 minutes to install (depends on your machine).
 
