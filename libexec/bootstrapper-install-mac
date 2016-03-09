@@ -305,15 +305,15 @@ mkdir -p "$HOME/Go"
 # shellcheck disable=SC2016
 append_to_zshrc 'export GOPATH="$HOME/Go"'
 
+fancy_echo "Configuring Docker ..."
+# shellcheck disable=SC2016
+append_to_zshrc 'source $(brew --prefix dvm)/dvm.sh'
+. "$(brew --prefix dvm)/dvm.sh"
+
 if [ -f "$HOME/.bootstrapper.local" ]; then
   fancy_echo "Running your customizations from ~/.bootstrapper.local ..."
   # shellcheck disable=SC1090
   . "$HOME/.bootstrapper.local"
 fi
-
-fancy_echo "Configuring Docker ..."
-# shellcheck disable=SC2016
-append_to_zshrc 'source $(brew --prefix dvm)/dvm.sh'
-. "$(brew --prefix dvm)/dvm.sh"
 
 fancy_echo "Finished, restart your terminal session ..."
