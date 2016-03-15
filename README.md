@@ -29,11 +29,22 @@ If you are starting on a fresh new machine, continue with the following steps:
   [steps][port-forwarding] to patch your install.
 2. [Vagrant][vagrant] installed via download and running the installer.
 3. [Vagrant-VMware Plugin][vagrant-vmware] buy a license and follow directions in email.
-4. Clone, review, then execute the script and follow the instructions:
+4. Download, review, then execute the install script and run the bootstrapper:
 
 ```sh
-git clone git@github.com:concur/bootstrapper.git
-cd bootstrapper
+# Download the install script
+curl -LO https://s3-us-west-2.amazonaws.com/concur-public-resources/bootstrapper/install.sh
+
+# Make it executable
+chmod 755 install.sh
+
+# Run the install script
+./install.sh
+
+# Change directory where bootstrapper was installed
+cd $HOME/.bootstrapper
+
+# Run the bootstrapper
 ./bin/bootstrapper install-mac 2>&1 | tee bootstrapper.log
 ```
 
