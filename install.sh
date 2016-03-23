@@ -63,7 +63,7 @@ main() {
   exit 0
 }
 
-VERSION="0.1.2"
+VERSION="0.1.3"
 FILE_NAME="bootstrapper-$VERSION.tar.gz"
 
 if [ -z "$PREFIX" ]; then
