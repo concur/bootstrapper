@@ -187,6 +187,7 @@ Toolchain and configuration:
   line
 * [dvm] a docker version manager
 * [bats] a bash automated testing system
+* [watchman] a file watching service
 
 [Bundler]: http://bundler.io/
 [Node.js]: http://nodejs.org/
@@ -208,6 +209,7 @@ Toolchain and configuration:
 [aws-cli]: https://aws.amazon.com/cli/
 [dvm]: https://github.com/getcarina/dvm
 [bats]: https://github.com/sstephenson/bats
+[watchman]: https://facebook.github.io/watchman/
 
 It should take less than 15 minutes to install (depends on your machine).
 

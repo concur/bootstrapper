@@ -245,6 +245,7 @@ brew_install_or_upgrade 'python'
 brew_install_or_upgrade 'elixir'
 brew_install_or_upgrade 'rust'
 brew_install_or_upgrade 'go'
+brew_install_or_upgrade 'watchman'
 
 fancy_echo "Configuring Node ..."
 find_latest_node_lts() {
