@@ -25,8 +25,21 @@ Install
 If you are starting on a fresh new machine, continue with the following steps:
 
 1. [VMware Fusion][vmware] installed via download and running the installer.  
-  * NOTE: In VMware Fusion 8.1, there's a port forwarding bug. Follow these
-  [steps][port-forwarding] to patch your install.
+  * NOTE: In VMware Fusion 8.1, there's a port forwarding bug. Follow these steps:
+    * Download the [NAT network component][natd] (MD5: e347f5c8d86640af5102852c897e31cc)
+    * Replace /Applications/VMware\ Fusion.app/Contents/Library/vmnet-natd with the file downloaded in the previous step.
+    * Change the permissions and ownership of vmnet-natd:
+
+      ```sh
+      sudo chmod 755 /Applications/VMware\ Fusion.app/Contents/Library/vmnet-natd
+      sudo chown root:wheel /Applications/VMware\ Fusion.app/Contents/Library/vmnet-natd
+      ```
+    * Restart the NAT network with the following commands:
+
+      ```sh
+      sudo /Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --stop
+      sudo /Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --start
+      ```
 2. [Vagrant][vagrant] installed via download and running the installer.
 3. [Vagrant-VMware Plugin][vagrant-vmware] buy a license and follow directions in email.
 4. Download, review, then execute the install script and run the bootstrapper:
