@@ -190,6 +190,7 @@ Toolchain and configuration:
 * [Elixir] stable for writing general-purpose code
 * [Rust] stable for writing general-purpose code
 * [Go] stable for writing general-purpose code
+* [Godep] a dependency tool for Go
 * [kubectl] for controlling Kubernetes clusters
 * [docker] what Virtual Machines did for Operating Systems, Docker does for processes
 * [docker-compose] lets you define a multi-container application in a single file
@@ -201,6 +202,7 @@ Toolchain and configuration:
 * [dvm] a docker version manager
 * [bats] a bash automated testing system
 * [watchman] a file watching service
+* [corectl] CoreOS over OS X made very simple
 
 [Bundler]: http://bundler.io/
 [Node.js]: http://nodejs.org/
@@ -213,6 +215,7 @@ Toolchain and configuration:
 [Elixir]: http://elixir-lang.org/
 [Rust]: https://rust-lang.org/
 [Go]: https://golang.org/
+[Godep]: https://github.com/tools/godep
 [kubectl]: https://cloud.google.com/container-engine/docs/kubectl/
 [docker]: https://www.docker.com/
 [docker-compose]: https://www.docker.com/products/docker-compose
@@ -223,6 +226,7 @@ Toolchain and configuration:
 [dvm]: https://github.com/getcarina/dvm
 [bats]: https://github.com/sstephenson/bats
 [watchman]: https://facebook.github.io/watchman/
+[corectl]: https://github.com/TheNewNormal/corectl
 
 It should take less than 15 minutes to install (depends on your machine).
 
