@@ -18,6 +18,12 @@ bootstrapper_install() {
   popd > /dev/null
 }
 
+bootstrapper_uninstall() {
+  if [ -d "$PREFIX" ]; then
+    rm -rf "$PREFIX"
+  fi
+}
+
 bootstrapper_download() {
   say "Downloading bootstrapper ..."
   pushd $TMPDIR > /dev/null
@@ -51,6 +57,7 @@ assert_cmds() {
 main() {
   assert_cmds
   bootstrapper_download
+  bootstrapper_uninstall
   bootstrapper_install
   cleanup
 
