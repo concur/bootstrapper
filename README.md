@@ -28,13 +28,13 @@ If you are starting on a fresh new machine, continue with the following steps:
 
 ```sh
 # Download the install script
-curl -LO https://s3-us-west-2.amazonaws.com/concur-public-resources/bootstrapper/install.sh
+curl -L -o bootstrapper-install.sh https://s3-us-west-2.amazonaws.com/concur-public-resources/bootstrapper/install.sh
 
 # Make it executable
-chmod 755 install.sh
+chmod 755 bootstrapper-install.sh
 
 # Run the install script
-./install.sh
+./bootstrapper-install.sh
 
 # Change directory where bootstrapper was installed
 cd $HOME/.bootstrapper
@@ -46,7 +46,7 @@ cd $HOME/.bootstrapper
 ### Optional
 
 _Some UI & DevOps projects will require these steps to run the classic Dev VM &
-generate base docker images_
+generate base docker images. If you're not sure this applies to you, then skip for now._
 
 1. [VMware Fusion][vmware] installed via download and running the installer.
   * NOTE: In VMware Fusion 8.1, there's a port forwarding bug. If you run into
@@ -80,6 +80,7 @@ installed outside of Homebrew manually, to avoid conflicts.
 [vagrant]: https://www.vagrantup.com/
 [vagrant-vmware]: http://www.vagrantup.com/vmware/
 [uninstall]: #uninstall
+[natd]: http://www.vmware.com/go/dl_vmnet-natd
 
 Debugging
 ---------
