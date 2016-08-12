@@ -110,6 +110,12 @@ Mac OS X tools:
 
 [Homebrew]: http://brew.sh/
 
+Configuration:
+
+* Generates [SSH][ssh] key if needed
+
+[ssh]: http://www.openssh.com/
+
 Unix tools:
 
 * [binutils] a collection of binary tools

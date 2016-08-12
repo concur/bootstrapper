@@ -34,6 +34,29 @@ install_docker() {
   rm -rf $_workDir
 }
 
+find_ssh_key() {
+  local _found=0
+  local _public_keys="id_dsa.pub id_ecdsa.pub id_rsa.pub"
+  for public_key in $_public_keys
+  do
+    if [ ! -f "$HOME/.ssh/$public_key" ]; then
+      continue
+    fi
+    _found=1
+  done
+  fancy_echo "$_found"
+}
+
+generate_ssh_key() {
+  local _ssh_key_exists="$(find_ssh_key)"
+  if [ $_ssh_key_exists == 0 ]; then
+    fancy_echo "No existing SSH key was found, generating ..."
+    ssh-keygen -t rsa -b 4096 -C "concur.local"
+  else
+    fancy_echo "Existing SSH key found ..."
+  fi
+}
+
 append_to_zshrc() {
   local text="$1" zshrc
   local skip_new_line="${2:-0}"
@@ -191,6 +214,9 @@ fi
 
 # shellcheck disable=SC2016
 append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
+
+fancy_echo "Generating SSH key if needed ..."
+generate_ssh_key
 
 if ! command -v brew >/dev/null; then
   fancy_echo "Installing Homebrew ..."
