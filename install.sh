@@ -10,6 +10,7 @@ cleanup() {
 
 bootstrapper_install() {
   say "Installing bootstrapper to $PREFIX ..."
+  mkdir -p $PREFIX
   pushd $TMPDIR > /dev/null
   tar xvf "$FILE_NAME" -C "$PREFIX" --strip-components=1 > /dev/null
   if [ $? != 0 ]; then
@@ -75,10 +76,6 @@ FILE_NAME="bootstrapper-$VERSION.tar.gz"
 
 if [ -z "$PREFIX" ]; then
   PREFIX="$HOME/.bootstrapper"
-fi
-
-if [ ! -d "$PREFIX" ]; then
-  mkdir -p "$PREFIX"
 fi
 
 if [ -z "$TMPDIR" ]; then
