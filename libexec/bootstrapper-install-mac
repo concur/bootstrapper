@@ -11,6 +11,29 @@ fancy_echo() {
   printf "\n$fmt\n" "$@"
 }
 
+install_docker() {
+  fancy_echo "Docker for Mac is not installed ..."
+  local _workDir="$TMPDIR/docker_staging"
+  mkdir -p $_workDir
+  pushd $_workDir > /dev/null 2>&1
+  fancy_echo "Downloading Docker for Mac ..."
+  curl -s -f -L -O https://download.docker.com/mac/stable/Docker.dmg
+  if [ $? != 0 ]; then
+    popd > /dev/null 2>&1
+    rm -rf $_workDir
+    fancy_echo "Couldn't download Docker for Mac!"
+    return 1
+  fi
+  fancy_echo "Mounting Docker.dmg ..."
+  hdiutil mount Docker.dmg > /dev/null 2>&1
+  fancy_echo "Installing Docker Application ..."
+  sudo cp -R "/Volumes/Docker/Docker.app" /Applications
+  fancy_echo "Unmounting Docker.dmg ..."
+  hdiutil eject /Volumes/Docker > /dev/null 2>&1
+  popd > /dev/null 2>&1
+  rm -rf $_workDir
+}
+
 append_to_zshrc() {
   local text="$1" zshrc
   local skip_new_line="${2:-0}"
@@ -126,6 +149,14 @@ if [ ! -d "/Library/Developer/CommandLineTools" ]; then
   exit 0
 fi
 
+if ! command -v docker > /dev/null 2>&1; then
+  install_docker
+  if [ $? != 0 ]; then
+    fancy_echo "Unable to download and install Docker for Mac"
+    return 1
+  fi
+fi
+
 if [ ! -f "$HOME/.zshrc" ]; then
   printf "%s\n" "[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local" >> "$HOME/.zshrc"
 fi
@@ -229,9 +260,7 @@ fancy_echo "Updating image tools ..."
 brew_install_or_upgrade 'imagemagick'
 
 fancy_echo "Updating toolchain ..."
-brew_install_or_upgrade 'docker'
 brew_install_or_upgrade 'dvm'
-brew_install_or_upgrade 'docker-compose'
 brew_install_or_upgrade 'kubernetes-cli'
 brew_install_or_upgrade 'packer'
 brew_install_or_upgrade 'vault'

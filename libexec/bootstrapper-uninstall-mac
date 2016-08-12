@@ -29,6 +29,10 @@ if echo "$answer" | grep -iq "^y" ;then
   /bin/rm -rf "$HOME/.zshrc"
 fi
 
+echo "Uninstalling Docker for Mac ..."
+# NOTE: More might be needed, but for now just remove the directory
+sudo /bin/rm -rf /Applications/Docker.app
+
 echo "Uninstalling Command Line Tools ..."
 # rm is fully qualified to make sure we're using the correct rm
 sudo /bin/rm -rf /Library/Developer/CommandLineTools
