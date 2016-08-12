@@ -113,6 +113,8 @@ Mac OS X tools:
 Configuration:
 
 * Generates [SSH][ssh] key if needed
+* Asks for name and email for git commits if not set
+* Adds github.com to ssh config
 
 [ssh]: http://www.openssh.com/
 

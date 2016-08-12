@@ -215,9 +215,6 @@ fi
 # shellcheck disable=SC2016
 append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
 
-fancy_echo "Generating SSH key if needed ..."
-generate_ssh_key
-
 if ! command -v brew >/dev/null; then
   fancy_echo "Installing Homebrew ..."
   curl -fsS \
@@ -268,6 +265,32 @@ brew_install_or_upgrade 'tmux'
 brew_install_or_upgrade 'vim'
 brew_install_or_upgrade 'zsh'
 brew_install_or_upgrade 'tree'
+
+fancy_echo "Configuring Git and ssh ..."
+fancy_echo "Generating SSH key if needed ..."
+generate_ssh_key
+
+ssh_config=$HOME/.ssh/config
+if [ ! -f "$ssh_config" ]; then
+  fancy_echo "Adding github details into ssh config ..."
+cat << EOF >> $ssh_config
+Host            github.com
+IdentityFile    ~/.ssh/id_rsa
+User            git
+EOF
+fi
+
+existing_git_name="$(git config --global user.name || echo "")"
+existing_git_email="$(git config --global user.email || echo "")"
+if [ -z "$existing_git_name" ] || [ -z "$existing_git_name" ]; then
+  fancy_echo "Configuring user information for git commits ..."
+  echo -n "What is your full name? "
+  read answer
+  git config --global user.name "$answer"
+  echo -n "What is your email? "
+  read answer
+  git config --global user.email "$answer"
+fi
 
 fancy_echo "Updating utilities ..."
 brew_install_or_upgrade 'httpie'
