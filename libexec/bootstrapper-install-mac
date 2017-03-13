@@ -240,6 +240,7 @@ brew_install_or_upgrade 'coreutils'
 append_to_zshrc 'export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"'
 export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 
+brew_install_or_upgrade 'bash'
 brew_install_or_upgrade 'binutils'
 brew_install_or_upgrade 'diffutils'
 brew_install_or_upgrade 'ed' --with-default-names
