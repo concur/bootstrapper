@@ -310,7 +310,6 @@ fancy_echo "Updating image tools ..."
 brew_install_or_upgrade 'imagemagick'
 
 fancy_echo "Updating toolchain ..."
-brew_install_or_upgrade 'dvm'
 brew_install_or_upgrade 'kubernetes-cli'
 brew_install_or_upgrade 'packer'
 brew_install_or_upgrade 'vault'
@@ -388,11 +387,6 @@ fancy_echo "Configuring Go ..."
 mkdir -p "$HOME/Go"
 # shellcheck disable=SC2016
 append_to_zshrc 'export GOPATH="$HOME/Go"'
-
-fancy_echo "Configuring Docker ..."
-# shellcheck disable=SC2016
-append_to_zshrc 'source $(brew --prefix dvm)/dvm.sh'
-. "$(brew --prefix dvm)/dvm.sh"
 
 if [ -f "$HOME/.bootstrapper.local" ]; then
   fancy_echo "Running your customizations from ~/.bootstrapper.local ..."
