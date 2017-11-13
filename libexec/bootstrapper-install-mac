@@ -194,7 +194,7 @@ esac
 
 fancy_echo "Preparing /usr/local ..."
 if [ -d "/usr/local" ]; then
-  sudo chown -R "$(whoami)":admin /usr/local
+  sudo chown -R $(whoami) $(brew --prefix)/*
 else
   sudo mkdir /usr/local
   sudo chflags norestricted /usr/local
