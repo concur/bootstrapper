@@ -15,6 +15,8 @@ We support:
 
 * OS X Yosemite (10.10)
 * OS X El Capitan (10.11)
+* OS X Sierra (10.12)
+* MacOS High Sierra (10.13)
 
 Older versions may work but aren't regularly tested. Bug reports for older
 versions are welcome.
@@ -24,63 +26,15 @@ Install
 
 If you are starting on a fresh new machine, continue with the following steps:
 
-1. Download, review, then execute the install script and run the bootstrapper:
+1. Clone this repo and run the bootstrapper:
 
 ```sh
-# Download the install script
-curl -L -o bootstrapper-install.sh https://s3-us-west-2.amazonaws.com/concur-public-resources/bootstrapper/install.sh
-
-# Make it executable
-chmod 755 bootstrapper-install.sh
-
-# Run the install script
-./bootstrapper-install.sh
-
-# Change directory where bootstrapper was installed
-cd $HOME/.bootstrapper
+# Clone
+git clone git@github.com:concur/bootstrapper.git
 
 # Run the bootstrapper
 ./bin/bootstrapper install-mac 2>&1 | tee bootstrapper.log
 ```
-
-### Optional
-
-_Some UI & DevOps projects will require these steps to run the classic Dev VM &
-generate base docker images. If you're not sure this applies to you, then skip for now._
-
-1. [VMware Fusion][vmware] installed via download and running the installer.
-  * NOTE: In VMware Fusion 8.1, there's a port forwarding bug. If you run into
-    this, follow these steps:
-    * Download the [NAT network component][natd] (MD5: e347f5c8d86640af5102852c897e31cc)
-    * Replace /Applications/VMware\ Fusion.app/Contents/Library/vmnet-natd with
-      the file downloaded in the previous step.
-    * Change the permissions and ownership of vmnet-natd:
-
-      ```sh
-      sudo chmod 755 /Applications/VMware\ Fusion.app/Contents/Library/vmnet-natd
-      sudo chown root:wheel /Applications/VMware\ Fusion.app/Contents/Library/vmnet-natd
-      ```
-    * Restart the NAT network with the following commands:
-
-      ```sh
-      sudo /Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --stop
-      sudo /Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --start
-      ```
-2. [Vagrant][vagrant] installed via download and running the installer.
-3. [Vagrant-VMware Plugin][vagrant-vmware] buy a license and follow directions in email.
-
-If you are not starting with a fresh machine, you will want to try running the
-[uninstall] process first. That will help get you part of the way to a fresh
-machine, since more than likely you used Homebrew for some things. Since we're
-helping you install a common toolchain, it's best to remove anything else you
-installed outside of Homebrew manually, to avoid conflicts.
-
-[vmware]: http://www.vmware.com/products/fusion/
-[port-forwarding]: https://blogs.vmware.com/teamfusion/2016/01/workaround-of-nat-port-forwarding-issue-in-fusion-8-1.html
-[vagrant]: https://www.vagrantup.com/
-[vagrant-vmware]: http://www.vagrantup.com/vmware/
-[uninstall]: #uninstall
-[natd]: http://www.vmware.com/go/dl_vmnet-natd
 
 Debugging
 ---------
