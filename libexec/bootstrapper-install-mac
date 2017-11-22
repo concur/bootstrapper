@@ -192,6 +192,12 @@ case "$SHELL" in
     ;;
 esac
 
+if ! command -v brew >/dev/null; then
+  fancy_echo "Installing Homebrew ..."
+  curl -fsS \
+    'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
+fi
+
 fancy_echo "Preparing /usr/local ..."
 if [ -d "/usr/local" ]; then
   sudo chown -R $(whoami) $(brew --prefix)/*
@@ -214,12 +220,6 @@ fi
 
 # shellcheck disable=SC2016
 append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
-
-if ! command -v brew >/dev/null; then
-  fancy_echo "Installing Homebrew ..."
-  curl -fsS \
-    'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
-fi
 
 if brew list | grep -Fq brew-cask; then
   fancy_echo "Uninstalling old Homebrew-Cask ..."
