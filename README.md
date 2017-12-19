@@ -30,7 +30,7 @@ If you are starting on a fresh new machine, continue with the following steps:
 
 ```sh
 # Clone
-git clone git@github.com:concur/bootstrapper.git
+git clone https://github.com/concur/bootstrapper.git
 
 # Run the bootstrapper
 ./bin/bootstrapper install-mac 2>&1 | tee bootstrapper.log
