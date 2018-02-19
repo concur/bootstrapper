@@ -228,7 +228,7 @@ fi
 
 fancy_echo "Updating Homebrew formulae ..."
 brew_tap 'thoughtbot/formulae'
-brew_tap 'homebrew/dupes'
+brew_tap 'homebrew/core'
 brew_tap 'concur/formulae'
 
 brew update
