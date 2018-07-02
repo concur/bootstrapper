@@ -327,6 +327,7 @@ brew_install_or_upgrade 'godep'
 brew_install_or_upgrade 'watchman'
 brew_install_or_upgrade 'corectl'
 brew_install_or_upgrade 'git-crypt'
+brew_install_or_upgrade 'yarn'
 
 fancy_echo "Configuring Node ..."
 find_latest_node_lts() {
