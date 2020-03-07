@@ -243,18 +243,18 @@ export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 brew_install_or_upgrade 'bash'
 brew_install_or_upgrade 'binutils'
 brew_install_or_upgrade 'diffutils'
-brew_install_or_upgrade 'ed' --with-default-names
-brew_install_or_upgrade 'findutils' --with-default-names
+brew_install_or_upgrade 'ed'
+brew_install_or_upgrade 'findutils'
 brew_install_or_upgrade 'gawk'
-brew_install_or_upgrade 'gnu-indent' --with-default-names
-brew_install_or_upgrade 'gnu-sed' --with-default-names
-brew_install_or_upgrade 'gnu-tar' --with-default-names
-brew_install_or_upgrade 'gnu-which' --with-default-names
+brew_install_or_upgrade 'gnu-indent'
+brew_install_or_upgrade 'gnu-sed'
+brew_install_or_upgrade 'gnu-tar'
+brew_install_or_upgrade 'gnu-which'
 brew_install_or_upgrade 'gnutls'
-brew_install_or_upgrade 'grep' --with-default-names
+brew_install_or_upgrade 'grep'
 brew_install_or_upgrade 'gzip'
 brew_install_or_upgrade 'watch'
-brew_install_or_upgrade 'wdiff' --with-gettext
+brew_install_or_upgrade 'wdiff'
 brew_install_or_upgrade 'wget'
 brew_install_or_upgrade 'ctags'
 brew_install_or_upgrade 'git'
